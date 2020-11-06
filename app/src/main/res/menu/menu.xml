@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/m_login"
+        android:title="Iniciar/Cerrar Sesión" />
+    <item
+        android:id="@+id/m_user"
+        android:title="Registrar Usuario" />
+    <item
+        android:id="@+id/m_localization"
+        android:title="Registrar Ubicación" />
+    <item
+        android:id="@+id/m_show"
+        android:title="Ver Ubicaciones" />
+</menu>
