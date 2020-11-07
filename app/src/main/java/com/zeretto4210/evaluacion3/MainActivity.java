@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         icon.setImageResource(R.drawable.loggedout);
         if (user != null){
             Toast.makeText(this, "¡Bienvenido, "+user.getName()+"!", Toast.LENGTH_SHORT).show();
-            userdata.setText("Bienvenido, "+user.getName()+" "+user.getLastname()+"\n (Usuario: "+user.getUser()+")");
+            userdata.setText("Bienvenido, "+user.getName());
             icon.setImageResource(R.drawable.loggedin);
         }
     }
@@ -58,6 +58,16 @@ public class MainActivity extends AppCompatActivity {
             case R.id.m_user: {
                 i = new Intent(getApplicationContext(), UserRegister.class);
                 startActivity(i);
+                return true;
+            }
+            case R.id.m_profile: {
+                if(user==null){
+                    Toast.makeText(this, "¡Primero inicia sesión!", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    i = new Intent(getApplicationContext(), ProfileActivity.class);
+                    startActivity(i);
+                }
                 return true;
             }
             case R.id.m_localization: {

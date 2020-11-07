@@ -4,6 +4,9 @@
     <item
         android:id="@+id/m_login"
         android:title="Iniciar/Cerrar Sesión" />
+    <item
+        android:id="@+id/m_profile"
+        android:title="Ver Perfil" />
     <item android:title="Registrar" >
         <menu >
             <item
