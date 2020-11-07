@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         icon.setImageResource(R.drawable.loggedout);
         if (user != null){
             Toast.makeText(this, "¡Bienvenido, "+user.getName()+"!", Toast.LENGTH_SHORT).show();
-            userdata.setText("USUARIO: "+user.getUser());
+            userdata.setText("Bienvenido, "+user.getName()+" "+user.getLastname()+"\n (Usuario: "+user.getUser()+")");
             icon.setImageResource(R.drawable.loggedin);
         }
     }
