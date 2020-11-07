@@ -41,7 +41,7 @@ public class UserRegister extends AppCompatActivity {
         gender = (RadioGroup) findViewById(R.id.r_group);
     }
 
-    public void registrarUsuario(View view) {
+    public void registerUser(View view) {
         String sUser, sPassword, sName, sLastName, sGender;
         sUser = "" + user.getText();
         sPassword = "" + password.getText();
@@ -73,7 +73,7 @@ public class UserRegister extends AppCompatActivity {
 
         SQLiteDatabase base = data.getWritableDatabase();
         long result = base.insert("users", "id", userdata);
-        Toast.makeText(this, "¡Te has registrado correctamente ("+sPassword+")!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "¡Te has registrado correctamente!", Toast.LENGTH_SHORT).show();
         finish();
     }
     private int getCountDB(String table){

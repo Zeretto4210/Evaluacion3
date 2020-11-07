@@ -2,26 +2,30 @@ package com.zeretto4210.evaluacion3;
 
 import androidx.fragment.app.FragmentActivity;
 
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     BDConnection data;
+    String user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,27 +51,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         Intent i = getIntent();
-        String user = i.getStringExtra("user");
-        ArrayList<Marker> markerList = retrieveMarkers(user);
+        user = i.getStringExtra("user");
+        ArrayList<Marker> markerList = retrieveMarkers(mMap,user);
 
-
-        for(Marker m : markerList){
-            LatLng marker = new LatLng(m.getLatitude(), m.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(marker).title(m.getName()));
-            //quedé aca
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker,18));
+        if (!markerList.isEmpty()){
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            for (Marker m : markerList){
+                builder.include(m.getPosition());
+            }
+            CameraUpdate cu;
+            int padding = 50;
+            LatLngBounds bounds = builder.build();
+            cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+            mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+                @Override
+                public void onMapLoaded() {
+                    /**set animated zoom camera into map*/
+                    mMap.animateCamera(cu);
+                }
+            });
+        }
+        else{
+            Toast.makeText(this, "Pero "+user+"... ¡No tienes ningún marcador!", Toast.LENGTH_SHORT).show();
         }
     }
 
-
-    public ArrayList<Marker> retrieveMarkers(String user){
+    public ArrayList<Marker> retrieveMarkers(GoogleMap map, String user){
         ArrayList<Marker> tempList = new ArrayList<>();
         SQLiteDatabase base = data.getReadableDatabase();
         String[] columns = {"id", "user","name","latitude","longitude"};
         Cursor c = base.query("markers", columns, "user =?", new String[]{user}, null, null, null);
         while(c.moveToNext()){
-            Marker b = new Marker(c.getInt(0), c.getString(1),c.getString(2),c.getDouble(3),c.getDouble(4));
-            tempList.add(b);
+            LatLng position = new LatLng(c.getDouble(3), c.getDouble(4));
+            Marker m = mMap.addMarker(new MarkerOptions().position(position).title(c.getString(2)));
+            tempList.add(m);
         }
         return tempList;
     }

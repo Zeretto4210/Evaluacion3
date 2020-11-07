@@ -23,7 +23,7 @@ public class MarkerRegister extends AppCompatActivity {
         user = getIntent().getStringExtra("user");
         data = new BDConnection(this, "systemBD", null, 1);
     }
-    public void add(View view){
+    public void addMarker(View view){
         String table = "markers";
         SQLiteDatabase base = data.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -37,7 +37,7 @@ public class MarkerRegister extends AppCompatActivity {
         latitud.setText("");
         longitud.setText("");
     }
-    public void showAll(View view){
+    public void showAllMarkers(View view){
         Intent i = new Intent(getApplicationContext(), MapsActivity.class);
         i.putExtra("user",user);
         startActivity(i);

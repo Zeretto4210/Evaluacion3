@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MarkerRegister">
 
     <TextView
         android:id="@+id/textView2"
@@ -81,6 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="AGREGAR"
+        android:onClick="addMarker"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/b_showall"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,6 +92,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="MOSTRAR TODOS"
+        android:onClick="showAllMarkers"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/b_register"

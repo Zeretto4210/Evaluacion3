@@ -4,13 +4,27 @@
     <item
         android:id="@+id/m_login"
         android:title="Iniciar/Cerrar Sesión" />
-    <item
-        android:id="@+id/m_user"
-        android:title="Registrar Usuario" />
-    <item
-        android:id="@+id/m_localization"
-        android:title="Registrar Ubicación" />
+    <item android:title="Registrar" >
+        <menu >
+            <item
+                android:id="@+id/m_user"
+                android:title="Usuario" />
+            <item
+                android:id="@+id/m_localization"
+                android:title="Ubicación" />
+        </menu>
+    </item>
     <item
         android:id="@+id/m_show"
-        android:title="Ver Ubicaciones" />
+        android:title="Ver Ubicaciones" ></item>
+    <item android:title="Eliminar Registros">
+        <menu>
+            <item
+                android:id="@+id/m_deleteMarkers"
+                android:title="Todos tus Marcadores" />
+            <item
+                android:id="@+id/m_deleteEverything"
+                android:title="BORRAR TODOOOO" />
+        </menu>
+    </item>
 </menu>
