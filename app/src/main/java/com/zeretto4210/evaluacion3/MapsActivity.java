@@ -1,11 +1,20 @@
 package com.zeretto4210.evaluacion3;
 
+import androidx.annotation.DrawableRes;
+import androidx.annotation.XmlRes;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.XmlResourceParser;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -13,10 +22,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.xmlpull.v1.XmlPullParser;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -79,14 +92,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public ArrayList<Marker> retrieveMarkers(GoogleMap map, String user){
         ArrayList<Marker> tempList = new ArrayList<>();
         SQLiteDatabase base = data.getReadableDatabase();
-        String[] columns = {"id", "user","name","latitude","longitude"};
+        String[] columns = {"id", "user","name","latitude","longitude", "icon"};
         Cursor c = base.query("markers", columns, "user =?", new String[]{user}, null, null, null);
         while(c.moveToNext()){
             LatLng position = new LatLng(c.getDouble(3), c.getDouble(4));
-            Marker m = mMap.addMarker(new MarkerOptions().position(position).title(c.getString(2)));
+            Marker m = mMap.addMarker(new MarkerOptions().position(position).title(c.getString(2)).icon(bitmapDescriptorFromVector(this, c.getInt(5))));
             tempList.add(m);
         }
         return tempList;
+    }
+
+    //https://stackoverflow.com/questions/42365658/custom-marker-in-google-maps-in-android-with-vector-asset-icon
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int vectorDrawableResourceId) {
+        Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_baseline_place_24);
+        background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
+        vectorDrawable.setBounds(40, 20, vectorDrawable.getIntrinsicWidth() + 40, vectorDrawable.getIntrinsicHeight() + 20);
+        Bitmap bitmap = Bitmap.createBitmap(background.getIntrinsicWidth(), background.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        background.draw(canvas);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
 }

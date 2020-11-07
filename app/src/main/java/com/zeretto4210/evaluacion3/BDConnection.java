@@ -10,7 +10,7 @@ public class BDConnection extends SQLiteOpenHelper {
 
     private final String usersTable = "CREATE TABLE users (id INTEGER, user TEXT, password TEXT, name TEXT, lastname TEXT, gender TEXT)";
     private final String loggedTable = "CREATE TABLE logged (id INTEGER, user TEXT)";
-    private final String markersTable = "CREATE TABLE markers (id INTEGER, user TEXT, name TEXT, latitude TEXT, longitude TEXT)";
+    private final String markersTable = "CREATE TABLE markers (id INTEGER, user TEXT, name TEXT, latitude TEXT, longitude TEXT, icon INTEGER)";
 
     public BDConnection(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);

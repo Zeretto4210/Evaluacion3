@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             }
             case R.id.m_deleteMarkers:{
                 SQLiteDatabase base = data.getWritableDatabase();
-                base.delete("logged","user=?", new String[]{user.getUser()});
+                base.delete("markers","user=?", new String[]{user.getUser()});
                 finish();
                 Toast.makeText(this, "¡Tus marcadores han sido eliminados!", Toast.LENGTH_SHORT).show();
                 i = new Intent(getApplicationContext(), MainActivity.class);
